@@ -5,7 +5,7 @@ package main;
 public abstract class Produkt {
     public String name;
     private final String Farbe = null;
-    private final String Größe = null;
+    private final String Groesse = null;
     private final String Art = null;
     private final String Form = null;
     private final String Gewicht = null;
@@ -13,24 +13,18 @@ public abstract class Produkt {
     public static Produkt neuesProdukt(){
         Orders newOrder = new Orders();
         String[] order = newOrder.getNextOrder();
-        if(order[2].equals("Papier")){
-            return new Papier(order[3],order[4]);
-        }
-        else if(order[2].equals("Holz")){
-            return new Holz(order[3],order[4]);
-        }
-        else if(order[2].equals("Stein")){
-            return new Stein(order[3],order[4]);
-        }
-        else{
-            return null;
-        }
+        return switch (order[2]) {
+            case "Papier" -> new Papier(order[3], order[4]);
+            case "Holz" -> new Holz(order[3], order[4]);
+            case "Stein" -> new Stein(order[3], order[4]);
+            default -> null;
+        };
     }
     public String getFarbe(){
         return Farbe;
     }
-    public String getGröße(){
-        return Größe;
+    public String getGroesse(){
+        return Groesse;
     }
     public String getArt(){
         return Art;

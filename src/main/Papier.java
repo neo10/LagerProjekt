@@ -11,7 +11,7 @@ public class Papier extends Produkt{
     public String getFarbe(){
         return Farbe;
     }
-    public String getGröße(){
+    public String getGroesse(){
         return Groesse;
     }
 
