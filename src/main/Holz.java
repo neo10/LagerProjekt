@@ -1,8 +1,8 @@
 package main;
 
 public class Holz  extends Produkt{
-    private String Art;
-    private String Form;
+    private final String Art;
+    private final String Form;
 
     public Holz(String Art, String Form){
         this.Art = Art;

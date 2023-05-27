@@ -4,11 +4,11 @@ package main;
 
 public abstract class Produkt {
     public String name;
-    private String Farbe = null;
-    private String Größe = null;
-    private String Art = null;
-    private String Form = null;
-    private String Gewicht = null;
+    private final String Farbe = null;
+    private final String Größe = null;
+    private final String Art = null;
+    private final String Form = null;
+    private final String Gewicht = null;
 
     public static Produkt neuesProdukt(){
         Orders newOrder = new Orders();

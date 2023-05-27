@@ -1,8 +1,8 @@
 package main;
 
 public class Stein extends Produkt{
-    private String Art;
-    private String Gewicht;
+    private final String Art;
+    private final String Gewicht;
 
     public Stein(String Art, String Gewicht){
         this.Art = Art;
