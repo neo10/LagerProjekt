@@ -10,10 +10,10 @@ public class start {
         String[] order = newOrder.getNextOrder();
         System.out.println("Order: " + Arrays.toString(order));
 
-        Produkt newProdukt = Produkt.neuesProdukt();
-        System.out.println(newProdukt.getClass().getName());
-        System.out.println("Produkt: " + newProdukt.name);
-        System.out.println("Farbe: " + newProdukt.getFarbe());
+        Auftrag newAuftrag = new Auftrag(newOrder);
+        System.out.println("Auftrag: " + newAuftrag.getAuftragsArt());
+        System.out.println("Auftrag: " + newAuftrag.getAnzahl());
+        System.out.println("Auftrag: " + newAuftrag.getProdukt().getName());
 
     }
 }

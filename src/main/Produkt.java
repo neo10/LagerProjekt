@@ -10,16 +10,6 @@ public abstract class Produkt {
     private final String Form = null;
     private final String Gewicht = null;
 
-    public static Produkt neuesProdukt(){
-        Orders newOrder = new Orders();
-        String[] order = newOrder.getNextOrder();
-        return switch (order[2]) {
-            case "Papier" -> new Papier(order[3], order[4]);
-            case "Holz" -> new Holz(order[3], order[4]);
-            case "Stein" -> new Stein(order[3], order[4]);
-            default -> null;
-        };
-    }
     public String getFarbe(){
         return Farbe;
     }
@@ -34,6 +24,9 @@ public abstract class Produkt {
     }
     public String getGewicht(){
         return Gewicht;
+    }
+    public String getName(){
+        return name;
     }
 
 
