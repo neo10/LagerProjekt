@@ -8,13 +8,10 @@ public class Eingang {
 
     }
     public boolean leeresArrayFeld(){
-        if(ErstenDreiAuftraege[0] == null || ErstenDreiAuftraege[1] == null || ErstenDreiAuftraege[2] == null){
-            return true;
-        }
-        else return false;
+        return ErstenDreiAuftraege[0] == null || ErstenDreiAuftraege[1] == null || ErstenDreiAuftraege[2] == null;
     }
     public void pushAuftrag(Auftrag newAuftrag){
-        if(leeresArrayFeld() == false){
+        if(!leeresArrayFeld()){
             System.out.println("Eingang ist voll");
             return;
         }

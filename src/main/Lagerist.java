@@ -1,7 +1,7 @@
 package main;
 
 public class Lagerist {
-    private String name;
+    private final String name;
     private Saldo saldo;
 
     public Lagerist(String name){

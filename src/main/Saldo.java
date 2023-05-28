@@ -1,6 +1,5 @@
 package main;
 
-import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -16,7 +15,7 @@ public class Saldo {
     }
     public void openGui(){
         // Die Daten für das Table
-        List<String> myList = new ArrayList<String>();
+        List<String> myList = new ArrayList<>();
         myList.add("Auslagerung");
         myList.add("200");
         myList.add("Verschrottung");
