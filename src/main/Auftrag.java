@@ -25,5 +25,8 @@ public class Auftrag {
     public Produkt getProdukt(){
         return Produkt;
     }
+    public Auftrag getAuftrag(){
+        return this;
+    }
 
 }
