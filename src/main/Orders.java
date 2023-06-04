@@ -58,7 +58,7 @@ public class Orders {
 		return data[lastOrder];
 	}
 	
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		// just for testing purpose
 		Orders orders = new Orders();
 		String[] order = orders.getNextOrder();
@@ -72,5 +72,5 @@ public class Orders {
 			System.out.print(cell);
 			System.out.print(";");
 		}
-	}
+	}*/
 }
