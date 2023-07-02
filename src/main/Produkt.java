@@ -8,9 +8,10 @@ public abstract class Produkt {
 
     private String name;
 
-    public Produkt(String Eigenschaft1, String Eigenschaft2){
+    public Produkt(String name,String Eigenschaft1, String Eigenschaft2){
         this.Eigenschaft1 = Eigenschaft1;
         this.Eigenschaft2 = Eigenschaft2;
+        this.name = name;
     }
     public String getEigenschaft1(){
         return Eigenschaft1;

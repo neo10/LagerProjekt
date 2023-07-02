@@ -28,7 +28,7 @@ public class Lager {
         }
         else return "Leer";
     }
-    public int Einlagern(Auftrag Auftrag,String Lagerplatz, mainFrame Frame){
+    public int Einlagern(Auftrag Auftrag,String Lagerplatz, mainFrame Frame,int eingang){
         int tempErtrag;
         //****************Prüfungen****************
         if(Auftrag == null){
@@ -43,7 +43,15 @@ public class Lager {
             Frame.openDialog("Fehler, Lagerplatz ist bereits belegt.");
             return -1;
         }
-        //****************Prüfungen****************
+        //****************Stein Prüfungen****************
+        if(getAuftrag(eingang).getProdukt().getName()=="Stein"&&getAuftrag(eingang).getProdukt().getEigenschaft2() == "Schwer" && !imUnterstenRegal(Lagerplatz)){
+            Frame.openDialog("Fehler: Schwerer Stein darf nur in der untersten Etage eingelagert werden.");
+            return -1;
+        }else if(getAuftrag(eingang).getProdukt().getName()=="Stein"&&getAuftrag(eingang).getProdukt().getEigenschaft2() == "Mittel" && imOberstenRegal(Lagerplatz)){
+            Frame.openDialog("Fehler: Mittelschwerer Stein darf nicht in der obersten Etage eingelagert werden.");
+            return -1;
+        }
+        //****************Stein Prüfungen****************
 
 
 
@@ -61,18 +69,18 @@ public class Lager {
             Frame.updateEingang(this);
             return tempErtrag;
         }
-        System.out.println("Backend: "+ HochRegalBestand);
         return -1;
     }
     public int Auslagern(String Lagerplatz,int eingang,mainFrame Frame){
-        System.out.println(Lagerplatz);
         if(getAuftrag(eingang).getAuftragsArt()!= "Auslagerung"){
-            Frame.openDialog("Fehler: Auslagern nur miteinem Auslagerungsauftrag möglich.");
+            Frame.openDialog("Fehler: Auslagern nur mit einem Auslagerungsauftrag möglich.");
             return -1;
 
         }else if(getAuftrag(eingang).getProdukt().getName()!=HochRegalBestand.get(Lagerplatz).getProdukt().getName()){
             Frame.openDialog("Fehler: Auftrag will anderes Produkt ausgelagert haben.");
             return -1;}
+
+
         if(!LagerPlatzFrei(Lagerplatz)){
             HochRegalBestand.remove(Lagerplatz);
             return AuftragErledigt(eingang);
@@ -96,7 +104,6 @@ public class Lager {
     }
     public boolean LagerPlatzFrei(String Lagerplatz){
         if(HochRegalBestand.get(Lagerplatz)!=null){
-            System.out.println("Lagerplatz belegt");
             return false;
         } else return true;}
     public Auftrag getAuftrag(int number){
@@ -152,5 +159,13 @@ public class Lager {
     }
     public TreeMap<String, Auftrag> getHochRegalBestand(){
         return HochRegalBestand;
+    }
+    public boolean imOberstenRegal(String Lagerplatz){
+        if(Lagerplatz.charAt(6)=='1')return true;
+        else return false;
+    }
+    public boolean imUnterstenRegal(String Lagerplatz){
+        if(Lagerplatz.charAt(6)=='4')return true;
+        else return false;
     }
 }

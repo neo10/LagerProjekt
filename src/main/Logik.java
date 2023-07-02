@@ -1,7 +1,6 @@
 package main;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class Logik {
@@ -48,11 +47,6 @@ public class Logik {
         updateOperatorGeklicked(geklickterButton.getActionCommand());
         switch (e.getActionCommand()) {
             case "Ablehnen":
-                System.out.println(eingang);
-                System.out.println(MeinLager.getAuftrag(1));
-                System.out.println(MeinLager.getAuftrag(2));
-                System.out.println(MeinLager.getAuftrag(3));
-
                 // Gibt -1 bei Fehler aus. ansonsten die Kosten
                 int tempErtrag = MeinLager.Ablehnen(eingang);
                 if(tempErtrag != -1){
@@ -62,42 +56,35 @@ public class Logik {
 
                 break;
             case "E1":
-                System.out.println("E1");
                     eingang = 1;
                     setAktiverEingang(eingang);
                 break;
             case "E2":
-                System.out.println("E2");
+
                     eingang = 2;
                     setAktiverEingang(eingang);
                 break;
             case "E3":
-                System.out.println("E3");
                     eingang = 3;
                     setAktiverEingang(eingang);
                 break;
             case "NeuerAuftrag":
-                System.out.println("NeuerAuftrag");
                 if (!MeinLager.setNeuenAuftragImEingang(Frame)) Frame.openDialog("Eingang ist voll");
                 Frame.updateEingang(MeinLager);
                 break;
             case "Verschrotten":
-                System.out.println("Verschrotten");
                 updateOperatorGeklicked(geklickterButton.getActionCommand());
 
                 break;
             case "Auslagern":
-                System.out.println("Auslagern");
                 updateOperatorGeklicked(geklickterButton.getActionCommand());
 
                 break;
             case "Einlagern":
-                System.out.println("Einlagern");
                 updateOperatorGeklicked(geklickterButton.getActionCommand());
 
                 break;
             case "Saldo":
-                System.out.println("Saldo");
                 Saldo.openGui();
                 break;
         }
@@ -143,7 +130,7 @@ public class Logik {
             this.ausgewaehlterLagerplatz = geklickterButton.getActionCommand();
             //*****************Einlagern************************************
             if (einlagernGeklickt) {
-                tempErtrag =MeinLager.Einlagern(ausgewaehlterAuftrag, ausgewaehlterLagerplatz, Frame);
+                tempErtrag =MeinLager.Einlagern(ausgewaehlterAuftrag, ausgewaehlterLagerplatz, Frame,eingang);
                 if(tempErtrag == -1) return true;
                 einlagernGeklickt = false;
                 Frame.updateEingang(MeinLager);
@@ -176,7 +163,6 @@ public class Logik {
             //*****************Verschrotten************************************
             } else if(verschrottenGeklickt){
                 tempErtrag = MeinLager.verschrotten(geklickterButton.getActionCommand());
-                System.out.println("HIEER"+tempErtrag);
                 if(tempErtrag == -1){
                     verschrottenGeklickt = false;
                     return false;

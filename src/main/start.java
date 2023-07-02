@@ -1,7 +1,5 @@
 package main;
 
-import java.util.Arrays;
-import java.util.TreeMap;
 
 public class start {
 
@@ -10,7 +8,7 @@ public class start {
         Orders OrderObjekt = new Orders();
         Lagerist LageristObjekt = new Lagerist("Lagerist");
 
-        mainFrame Frame = new mainFrame("test", 1440, 900);
+        mainFrame Frame = new mainFrame("Lagerspiel", 1440, 900);
         Logik GameLogik = new Logik(OrderObjekt, LageristObjekt,Frame);
         Frame.setGameLogik(GameLogik);
         Frame.initNordPanel();
@@ -18,10 +16,6 @@ public class start {
         Frame.initMittePanel();
         Frame.initOstPanel();
         Frame.setVisible();
-
-
-        System.out.println("Hello World!");
-
 
         }
 

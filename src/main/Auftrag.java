@@ -11,9 +11,9 @@ public class Auftrag {
         this.Belohnung = Integer.parseInt(order[5]) ;
         this.AuftragsArt = order[1];
         switch (order[2]) {
-            case "Papier" -> Produkt = new Papier(order[3], order[4]);
-            case "Holz" -> Produkt = new Holz(order[3], order[4]);
-            case "Stein" -> Produkt = new Stein(order[3], order[4]);
+            case "Papier" -> Produkt = new Papier("Papier",order[3], order[4]);
+            case "Holz" -> Produkt = new Holz("Holz",order[3], order[4]);
+            case "Stein" -> Produkt = new Stein("Stein",order[3], order[4]);
             default -> Produkt = null;
         }
     }
