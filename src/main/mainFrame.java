@@ -1,126 +1,174 @@
 package main;
 
+import com.sun.source.tree.Tree;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class mainFrame extends JFrame implements ActionListener {
     private Logik GameLogik;
-
     private int width;
     private int height;
     private String FrameName;
+    private TreeMap<String, JButton> GuiLagerButtonTreemap = new TreeMap<String, JButton>();
     Container mainContainer; // der Mainframe in den alle Elemente
-    private JButton buttonR11 = new JButton("Regal 1.1");
-    private JButton buttonR12 = new JButton("Regal 1.2");
-    private JButton buttonR13 = new JButton("Regal 1.3");
-    private JButton buttonR14 = new JButton("Regal 1.4");
-    private JButton buttonR21 = new JButton("Regal 2.1");
-    private JButton buttonR22 = new JButton("Regal 2.2");
-    private JButton buttonR23 = new JButton("Regal 2.3");
-    private JButton buttonR24 = new JButton("Regal 2.4");
-    private JButton buttonR31 = new JButton("Regal 3.1");
-    private JButton buttonR32 = new JButton("Regal 3.2");
-    private JButton buttonR33 = new JButton("Regal 3.3");
-    private JButton buttonR34 = new JButton("Regal 3.4");
-    private JButton buttonR41 = new JButton("Regal 4.1");
-    private JButton buttonR42 = new JButton("Regal 4.2");
-    private JButton buttonR43 = new JButton("Regal 4.3");
-    private JButton buttonR44 = new JButton("Regal 4.4");
 
     private JButton buttonNeuerAuftrag = new JButton("Neuer Auftrag");
 
-    private JButton buttonNeuStarten = new JButton("Neu Starten");
-    private JButton buttonBeenden = new JButton("Beenden");
+    private JButton buttonAuftragAblehnen = new JButton("Auftrag ablehnen");
+
     private JButton buttonE1 = new JButton("Eingang 1");
     private JButton buttonE2 = new JButton("Eingang 2");
     private JButton buttonE3 = new JButton("Eingang 3");
-public mainFrame(String FrameName,int width, int height, Logik GameLogik){
+
+    private JButton buttonSaldo = new JButton("Transaktionen anzeigen");
+    private JButton buttonVerschrotten = new JButton("Verschrotten");
+    private JButton buttonEinlagern = new JButton("Einlagern");
+    private JButton buttonAuslagern = new JButton("Auslagern");
+    private JLabel Eingang1Text = new JLabel("", SwingConstants.LEFT);
+    private JLabel Eingang2Text = new JLabel("", SwingConstants.LEFT);
+    private JLabel Eingang3Text = new JLabel("", SwingConstants.LEFT);
+    private int Saldo = 0;
+    private JLabel SaldoLabel = new JLabel();
+public mainFrame(String FrameName,int width, int height){
     this.width = width;
     this.height = height;
     this.FrameName = FrameName;
-    this.GameLogik = GameLogik;
     mainContainer = this.getContentPane();
     mainContainer.setLayout(new BorderLayout());
     mainContainer.setBackground(Color.YELLOW);
-    this.getRootPane().setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.GREEN));
-    setUpButtonListener();
+    this.getRootPane().setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.YELLOW));
 
     this.setSize(this.width, this.height);
     this.setTitle(this.FrameName);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-
+    Saldo = 0;
+    setSaldo(0);
 
 }
     public void setVisible(){
 
         this.setVisible(true);
     }
-    public void setUpUntenLeiste(){
+    public void initSuedPanel(){
+        buttonAuftragAblehnen.addActionListener(this);
+        buttonE1.addActionListener(this);
+        buttonE2.addActionListener(this);
+        buttonE3.addActionListener(this);
+        buttonVerschrotten.addActionListener(this);
+        buttonAuslagern.addActionListener(this);
+        buttonEinlagern.addActionListener(this);
+        buttonAuftragAblehnen.setActionCommand("Ablehnen");
+        buttonE1.setActionCommand("E1");
+        buttonE2.setActionCommand("E2");
+        buttonE3.setActionCommand("E3");
+        buttonVerschrotten.setActionCommand("Verschrotten");
+        buttonAuslagern.setActionCommand("Auslagern");
+        buttonEinlagern.setActionCommand("Einlagern");
+
         JPanel UntenPanel = new JPanel(new BorderLayout());
         JPanel UntenRechtsPanel = new JPanel();
-        JPanel EingangPanel = new JPanel();
+        JPanel MitteUntenPanel = new JPanel();
+        JPanel UntenLinksPanel = new JPanel();
+        JPanel MitteObenPanel = new JPanel();
+
+        Eingang1Text.setPreferredSize(new Dimension(130, 150));
+        Eingang2Text.setPreferredSize(new Dimension(130, 150));
+        Eingang3Text.setPreferredSize(new Dimension(130, 150));
+        Eingang1Text.setOpaque(true);
+        Eingang2Text.setOpaque(true);
+        Eingang3Text.setOpaque(true);
+        Eingang1Text.setBackground(Color.WHITE);
+        Eingang2Text.setBackground(Color.WHITE);
+        Eingang3Text.setBackground(Color.WHITE);
+        Eingang1Text.setBorder(new LineBorder(Color.WHITE));
+        Eingang2Text.setBorder(new LineBorder(Color.WHITE));
+        Eingang3Text.setBorder(new LineBorder(Color.WHITE));
+
+        MitteObenPanel.add(this.Eingang1Text);
+        MitteObenPanel.add(this.Eingang2Text);
+        MitteObenPanel.add(this.Eingang3Text);
 
 
-        //button1.setMargin(new Insets(0, 30, 0, 30));
-        EingangPanel.add(buttonE1);
-        EingangPanel.add(buttonE2);
-        EingangPanel.add(buttonE3);
-        EingangPanel.setBorder(new EmptyBorder(90, 10, 10, 10));
-        UntenRechtsPanel.add(buttonNeuStarten);
-        UntenRechtsPanel.add(buttonBeenden);
-        UntenRechtsPanel.setBorder(new EmptyBorder(90, 10, 10, 10));
+        //EingangsButtons
+        MitteUntenPanel.add(buttonE1);
+        MitteUntenPanel.add(buttonE2);
+        MitteUntenPanel.add(buttonE3);
+        UntenRechtsPanel.add(buttonAuftragAblehnen);
 
+
+        MitteUntenPanel.setBorder(new EmptyBorder(50, 10, 10, 10));
+        UntenRechtsPanel.setBorder(new EmptyBorder(50, 10, 10, 10));
+
+        UntenLinksPanel.setLayout(new BoxLayout(UntenLinksPanel, BoxLayout.Y_AXIS));
+        UntenLinksPanel.setBorder(new EmptyBorder(50, 10, 10, 10));
+        UntenLinksPanel.add(buttonEinlagern);
+        UntenLinksPanel.add(buttonAuslagern);
+        UntenLinksPanel.add(buttonVerschrotten);
+
+        UntenPanel.setLayout(new BorderLayout());
         UntenPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         UntenPanel.setBackground(Color.MAGENTA);
         UntenPanel.add(UntenRechtsPanel, BorderLayout.EAST); // Unten Rechts
-        UntenPanel.add(EingangPanel, BorderLayout.CENTER); // Eingang
+        UntenPanel.add(MitteObenPanel, BorderLayout.NORTH); // Mitte Oben
+        UntenPanel.add(MitteUntenPanel, BorderLayout.CENTER); // Eingang
+        UntenPanel.add(UntenLinksPanel, BorderLayout.WEST); // Unten Links
 
         mainContainer.add(UntenPanel, BorderLayout.SOUTH);
 
 
     }
-    public void setUpRegal(){
+    public void initMittePanel(){
+        int j=0;
+        for (int i = 1; i <=4; i++) {
+            for(int k = 1; k <=4; k++){
+                JButton tempButton = new JButton("Viel Spaß!");
+                tempButton.addActionListener(this);
+                tempButton.setActionCommand("Lager "+i+ "."+ k);
+                GuiLagerButtonTreemap.put("Lager "+i+ "."+ k, tempButton);
+                j++;
+            }
+        }
+
         JPanel RegalPanel = new JPanel();
         RegalPanel.setLayout(new GridLayout(4,4));
         RegalPanel.setBorder(new LineBorder(Color.BLACK, 4));
-        RegalPanel.add(buttonR11);
-        RegalPanel.add(buttonR21);
-        RegalPanel.add(buttonR31);
-        RegalPanel.add(buttonR41);
-        RegalPanel.add(buttonR12);
-        RegalPanel.add(buttonR22);
-        RegalPanel.add(buttonR32);
-        RegalPanel.add(buttonR42);
-        RegalPanel.add(buttonR13);
-        RegalPanel.add(buttonR23);
-        RegalPanel.add(buttonR33);
-        RegalPanel.add(buttonR43);
-        RegalPanel.add(buttonR14);
-        RegalPanel.add(buttonR24);
-        RegalPanel.add(buttonR34);
-        RegalPanel.add(buttonR44);
+        Set<String> keys = GuiLagerButtonTreemap.keySet();
+        //Alle Buttons der Treemap in das Panel hinzufügen
+        for (String key : keys) {
+            RegalPanel.add(GuiLagerButtonTreemap.get(key));
+    }
+
         RegalPanel.setBackground(Color.MAGENTA);
 
         mainContainer.add(RegalPanel, BorderLayout.CENTER);
     }
-    public void setUpInfoLeiste(){
-        JLabel labelSaldo = new JLabel("Saldo: ");
+    public void initNordPanel(){
+        buttonSaldo.setActionCommand("Saldo");
+        buttonSaldo.addActionListener(this);
+
+        JPanel InfoWestPanel = new JPanel();
+        JPanel InfoMittePanel = new JPanel();
         JPanel InfoPanel = new JPanel();
         InfoPanel.setBorder(new LineBorder(Color.BLACK, 4));
-        InfoPanel.setLayout(new GridLayout(1,2));
-        InfoPanel.setBackground(Color.MAGENTA);
-        InfoPanel.add(labelSaldo);
-        InfoPanel.setBorder(new EmptyBorder(10, 10, 30, 10));
+        InfoPanel.setLayout(new BorderLayout());
+        InfoPanel.setBackground(Color.BLUE);
+        InfoWestPanel.add(SaldoLabel);
+        InfoMittePanel.add(buttonSaldo);
+        InfoPanel.add(InfoWestPanel, BorderLayout.WEST);
+        InfoPanel.add(InfoMittePanel, BorderLayout.CENTER);
+        InfoPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         mainContainer.add(InfoPanel, BorderLayout.NORTH);
     }
-    public void setUpRechteLeiste(){
-
+    public void initOstPanel(){
+        buttonNeuerAuftrag.addActionListener(this);
+        buttonNeuerAuftrag.setActionCommand("NeuerAuftrag");
 
 
     JPanel RechteLeistePanel = new JPanel();
@@ -131,81 +179,151 @@ public mainFrame(String FrameName,int width, int height, Logik GameLogik){
     mainContainer.add(RechteLeistePanel, BorderLayout.EAST);
     }
 
-public void setUpButtonListener(){
-    buttonR11.addActionListener(this);
-    buttonR12.addActionListener(this);
-    buttonR13.addActionListener(this);
-    buttonR14.addActionListener(this);
-    buttonR21.addActionListener(this);
-    buttonR22.addActionListener(this);
-    buttonR23.addActionListener(this);
-    buttonR24.addActionListener(this);
-    buttonR31.addActionListener(this);
-    buttonR32.addActionListener(this);
-    buttonR33.addActionListener(this);
-    buttonR34.addActionListener(this);
-    buttonR41.addActionListener(this);
-    buttonR42.addActionListener(this);
-    buttonR43.addActionListener(this);
-    buttonR44.addActionListener(this);
-    buttonNeuStarten.addActionListener(this);
-    buttonBeenden.addActionListener(this);
-    buttonE1.addActionListener(this);
-    buttonE2.addActionListener(this);
-    buttonE3.addActionListener(this);
-    buttonNeuerAuftrag.addActionListener(this);
-    buttonR11.setActionCommand("R11");
-    buttonR12.setActionCommand("R12");
-    buttonR13.setActionCommand("R13");
-    buttonR14.setActionCommand("R14");
-    buttonR21.setActionCommand("R21");
-    buttonR22.setActionCommand("R22");
-    buttonR23.setActionCommand("R23");
-    buttonR24.setActionCommand("R24");
-    buttonR31.setActionCommand("R31");
-    buttonR32.setActionCommand("R32");
-    buttonR33.setActionCommand("R33");
-    buttonR34.setActionCommand("R34");
-    buttonR41.setActionCommand("R41");
-    buttonR42.setActionCommand("R42");
-    buttonR43.setActionCommand("R43");
-    buttonR44.setActionCommand("R44");
-    buttonNeuStarten.setActionCommand("NeuStarten");
-    buttonBeenden.setActionCommand("Beenden");
-    buttonE1.setActionCommand("E1");
-    buttonE2.setActionCommand("E2");
-    buttonE3.setActionCommand("E3");
-    buttonNeuerAuftrag.setActionCommand("NeuerAuftrag");
+public void Einlagern(Auftrag Auftrag,String ausgewaehlterLagerplatz){
+    GuiLagerButtonTreemap.get(ausgewaehlterLagerplatz).setText(Auftrag.getProdukt().getName());
 }
-public void setButtonName(ActionEvent e, String name){
-    JButton geklickterButton = (JButton) e.getSource();
-    geklickterButton.setText(name);
+public void setSaldo(int neuUmsatz){
+    Saldo+=neuUmsatz;
+    SaldoLabel.setText("Saldo: " + Saldo + " €");
+}
+public void openDialog(String text){
+    JOptionPane.showMessageDialog(this, text);
 }
 
-public void setAktiverAuftragFarbe(ActionEvent e){
+
+public void setAktiverAuftragFarbe(int e){
     // Ausgewählter Auftrag wird gelb markiert
-    switch (e.getActionCommand()){
-        case "E1":
-            buttonE1.setBackground(Color.YELLOW);
+
+    switch (e){
+        case 1:
+            buttonE1.setBackground(Color.GREEN);
             buttonE2.setBackground(Color.WHITE);
             buttonE3.setBackground(Color.WHITE);
+            Eingang1Text.setBorder(new LineBorder(Color.BLACK));
+            Eingang2Text.setBorder(new LineBorder(Color.WHITE));
+            Eingang3Text.setBorder(new LineBorder(Color.WHITE));
             break;
-        case "E2":
+        case 2:
             buttonE1.setBackground(Color.WHITE);
-            buttonE2.setBackground(Color.YELLOW);
+            buttonE2.setBackground(Color.GREEN);
             buttonE3.setBackground(Color.WHITE);
+            Eingang1Text.setBorder(new LineBorder(Color.WHITE));
+            Eingang2Text.setBorder(new LineBorder(Color.BLACK));
+            Eingang3Text.setBorder(new LineBorder(Color.WHITE));
+
             break;
-        case "E3":
+        case 3:
             buttonE1.setBackground(Color.WHITE);
             buttonE2.setBackground(Color.WHITE);
-            buttonE3.setBackground(Color.YELLOW);
+            buttonE3.setBackground(Color.GREEN);
+            Eingang1Text.setBorder(new LineBorder(Color.WHITE));
+            Eingang2Text.setBorder(new LineBorder(Color.WHITE));
+            Eingang3Text.setBorder(new LineBorder(Color.BLACK));
+
             break;
     }
 }
+public void setOperatorFarbe(String operator){
+    // Ausgewählter Operator wird grün markiert
+    switch (operator){
+        case "Einlagern":
+            buttonEinlagern.setBackground(Color.GREEN);
+            buttonAuslagern.setBackground(Color.WHITE);
+            buttonVerschrotten.setBackground(Color.WHITE);
+            break;
+        case "Auslagern":
+            buttonEinlagern.setBackground(Color.WHITE);
+            buttonAuslagern.setBackground(Color.GREEN);
+            buttonVerschrotten.setBackground(Color.WHITE);
+            break;
+        case "Verschrotten":
+            buttonEinlagern.setBackground(Color.WHITE);
+            buttonAuslagern.setBackground(Color.WHITE);
+            buttonVerschrotten.setBackground(Color.GREEN);
+            break;
+        case "reset":
+            buttonEinlagern.setBackground(Color.WHITE);
+            buttonAuslagern.setBackground(Color.WHITE);
+            buttonVerschrotten.setBackground(Color.WHITE);
+            break;
+    }
+}
+    public void setEingangText(Auftrag Auftrag, int Eingang){
+        if(Auftrag == null){
+            switch (Eingang){
+                case 1:
+                    setEingang1TextLeer();
+                    break;
+                case 2:
+                    setEingang2TextLeer();
+                    break;
+                case 3:
+                    setEingang3TextLeer();
+                    break;
+            }
+            return;
+        }
+        // macht hier nur weiter, wenn Auftrag nicht null ist
+        String Art = Auftrag.getAuftragsArt();
+        String Produkt = Auftrag.getProdukt().getName();
+        String Eigenschaft1 = Auftrag.getProdukt().getEigenschaft1();
+        String Eigenschaft2 = Auftrag.getProdukt().getEigenschaft2();
+        String Belohnung = Integer.toString(Auftrag.getBelohnung());
+        JLabel EingangAktiv;
+        if(Eingang==1) EingangAktiv = Eingang1Text;
+        else if(Eingang==2) EingangAktiv = Eingang2Text;
+        else if (Eingang==3) EingangAktiv = Eingang3Text;
+        else EingangAktiv = null;
 
+            EingangAktiv.setText(
+                "<html><h3>Auftrag "+Eingang+"</h3><br>"
+                        +"Art: "+Art+"<br>"
+                        +"Produkt: "+Produkt+"<br>"
+                        +"Eigenschaft1: "+Eigenschaft1+"<br>"
+                        +"Eigenschaft2: "+Eigenschaft2+"<br>"
+                        +"Belohnung: "+Belohnung+"<br>"
+                        +"</html>");
+    }
+    public void setEingang1TextLeer(){
+        Eingang1Text.setText("");
+    }
+    public void setEingang2TextLeer(){
+        Eingang2Text.setText("");
+    }
+    public void setEingang3TextLeer(){
+        Eingang3Text.setText("");
+    }
+    public void updateEingang(Lager Meinlager){
+         Auftrag Auftrag1 = Meinlager.getAuftrag(1);
+         Auftrag Auftrag2 = Meinlager.getAuftrag(2);
+         Auftrag Auftrag3 = Meinlager.getAuftrag(3);
+         setEingangText(Auftrag1,1);
+       setEingangText(Auftrag2,2);
+       setEingangText(Auftrag3,3);
 
-
-
+       // Alle Buttons wieder grau machen
+        buttonE1.setBackground(Color.WHITE);
+        buttonE2.setBackground(Color.WHITE);
+        buttonE3.setBackground(Color.WHITE);
+        Eingang1Text.setBorder(new LineBorder(Color.WHITE));
+        Eingang2Text.setBorder(new LineBorder(Color.WHITE));
+        Eingang3Text.setBorder(new LineBorder(Color.WHITE));
+    }
+    public void updateRegal(Lager MeinLager){
+        TreeMap <String, Auftrag> RegalBestand = MeinLager.getHochRegalBestand();
+        Set<String> keys = GuiLagerButtonTreemap.keySet();
+        //Alle Buttons der Treemap in das Panel hinzufügen
+        for (String key : keys) {
+            if(RegalBestand.get(key)==null) GuiLagerButtonTreemap.get(key).setText("");
+            else GuiLagerButtonTreemap.get(key).setText(RegalBestand.get(key).getProdukt().getName());
+        }
+    }
+public TreeMap<String, JButton> getGuiLagerButtonTreemap() {
+    return GuiLagerButtonTreemap;
+}
+public void setGameLogik(Logik gameLogik) {
+    this.GameLogik = gameLogik;
+}
 
 // Die Logik was passiert, wenn Buttons gedrückt werden
     @Override

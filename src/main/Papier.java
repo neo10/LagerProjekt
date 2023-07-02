@@ -1,18 +1,13 @@
 package main;
 
 public class Papier extends Produkt{
-    private final String Farbe;
-    private final String Groesse;
-    Papier(String Farbe, String Groesse){
-        this.Farbe = Farbe;
-        this.Groesse = Groesse;
-        this.name = "Papier";
+    private final String name = "Papier";
+    Papier(String Eigenschaft1, String Eigenschaft2){
+        super(Eigenschaft1, Eigenschaft2);
     }
-    public String getFarbe(){
-        return Farbe;
+    public String getName(){
+        return name;
     }
-    public String getGroesse(){
-        return Groesse;
-    }
+
 
 }

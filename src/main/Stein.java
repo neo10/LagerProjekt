@@ -1,18 +1,11 @@
 package main;
 
 public class Stein extends Produkt{
-    private final String Art;
-    private final String Gewicht;
-
-    public Stein(String Art, String Gewicht){
-        this.Art = Art;
-        this.Gewicht = Gewicht;
-        this.name = "Stein";
+    private final String name = "Stein";
+    Stein(String Eigenschaft1, String Eigenschaft2){
+        super(Eigenschaft1, Eigenschaft2);
     }
-    public String getArt(){
-        return Art;
-    }
-    public String getGewicht(){
-        return Gewicht;
+    public String getName(){
+        return name;
     }
 }
